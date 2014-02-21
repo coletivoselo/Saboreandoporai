@@ -1,0 +1,204 @@
+<?php get_header(); ?>
+<div id="site">
+    <div id="conteudo">
+        <div id="artigos">
+         	<div class='anuncio'>
+				<?php  if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar("Anuncio Topo")):?>
+				<?php endif; ?>	
+			</div>
+            <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); 
+            
+					$i = $i+1;
+					if($i < 2){
+			?>
+			
+			
+			<?php
+//CUstom Postype Receitas
+ $my_query = new WP_Query('post_type=receita&project-cat=websites&posts_per_page=1');
+      while ($my_query->have_posts()) : $my_query->the_post(); ?>
+	   <div class="artigo">
+        <h2><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
+                    <div class='clear'></div>
+					<!--
+<?php $url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
+					<div class="artigo-img" <?php thumbnail_bg( 'full' ); ?>></div>
+--><?php echo do_shortcode("[style-my-gallery]"); ?>
+					<span class="amarelo">Publicado em: </span><?php the_time('j \d\e F \d\e Y') ?></span> <span class="amarelo"> Por:</span><span class="amarelo"><?php the_author() ?></span> - <span class="amarelo"><?php comments_popup_link('Sem Comentários', '1 Comentário', '% Comentários', 'comments-link', ''); ?> <?php edit_post_link('(Editar)'); ?></span></p>
+					<div class='clear'></div>	
+					<div class='icones'> 
+						Tempo de Preparo: 
+						Para Até: 
+						
+						
+					</div>
+					<div id='curti'><?php echo do_shortcode('[easy-share]'); ?><?php if (function_exists('get_cat_icon')) get_cat_icon(); ?></div> 
+					<?php the_content(); ?>
+					<div id='curti'><?php if(function_exists('wizylike')) wizylike('button');  ?> </div>
+<?php endwhile;  wp_reset_query(); ?>
+<div id="vejamais">
+						<b class='linksmais'><a href="<?php the_permalink() ?>" class=''>Veja essa Receita<i class="scicon-awesome-thumbs-up"></i></a></b><b class='linksmais'>  <a href="<?php the_permalink() ?>#comments" class=''><i class="scicon-awesome-chat-empty"></i>Deixar Comentário</a></b>
+							</div>
+
+</div>
+
+<!-- Final Postype Receitas -->
+
+
+
+<?php
+//Promoções
+ $my_query = new WP_Query('post_type=promocao&project-cat=websites&posts_per_page=1');
+      while ($my_query->have_posts()) : $my_query->the_post(); ?>
+
+        <h2><?php the_title(); ?></h2>
+                
+                <div class="content">
+                   <?php the_content(); ?>
+                </div>
+
+<?php endwhile;  wp_reset_query(); ?>
+
+<!-- Final Promoções -->
+<?php
+//Tele Entrega
+ $my_query = new WP_Query('post_type=tele-entrega&project-cat=websites&posts_per_page=1');
+      while ($my_query->have_posts()) : $my_query->the_post(); ?>
+
+        <h2><?php the_title(); ?></h2>
+                
+                <div class="content">
+                   <?php the_content(); ?>
+                </div>
+
+<?php endwhile;  wp_reset_query(); ?>
+
+<!-- Final Postype Tele Entrega -->
+			<div class="divisor"></div>
+			
+                <div class="artigo">		
+                    <h2><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
+                    <div class='clear'></div>
+					<?php $url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
+					<!-- <div class="artigo-img" <?php thumbnail_bg( 'full' ); ?>></div> -->				
+					<span class="amarelo">Publicado em: </span><?php the_time('j \d\e F \d\e Y') ?></span> <span class="amarelo">Cidade: </span>
+<span class="amarelo"> Estado:</span> <span class="amarelo"> Por:</span><span class="amarelo"><?php the_author() ?></span> - <span class="amarelo"><?php comments_popup_link('Sem Comentários', '1 Comentário', '% Comentários', 'comments-link', ''); ?> <?php edit_post_link('(Editar)'); ?></span></p>
+					<div class='clear'></div>	
+					<div class='icones'></div>
+					<div id='curti'><?php echo do_shortcode('[easy-share]'); ?><?php if (function_exists('get_cat_icon')) get_cat_icon(); ?></div> 
+					<div class='clear'></div>
+					                    <div id='conteudopost'>
+                    	  
+                       	<?php the_content(); ?>
+							<div id='curti'><?php if(function_exists('wizylike')) wizylike('button');  ?> </div>
+
+					</div>
+
+
+                                        <p style="margin:5px; padding:0px;">						<div id='informacoes-estabelecimento'>
+							
+							<div class="dados-estabelecimento">
+								<div class='tit'>
+								<?php 
+								echo types_render_field("nome-do-estabelecimento", array("output"=>"html")); ?>
+								</div>
+								<div class='meio'>
+									<div><img src='<?php bloginfo('template_directory');?>/imagens/ico_telefone.png'> <b><?php 
+								echo types_render_field("telefone", array("output"=>"html")); ?></b></div>
+									<div><img src='<?php bloginfo('template_directory');?>/imagens/ico_pc.png'> <b><?php 
+								echo types_render_field("site", array("output"=>"html")); ?></b></div>
+									<div class='dados'><?php 
+								echo types_render_field("endereco", array("output"=>"html")); ?><br>
+	<?php 
+								echo types_render_field("horario-de-funcionamento", array("output"=>"html")); ?>
+	<?php 
+								$cartao_de_credito = split(",", types_render_field("cartao-de-credito", array("output"=>"txt"))); ?>
+	</div>
+					
+								</div>
+								<div class='fim'>
+									<span>Aceita Cartão:</span>
+									<?php if($cartao_de_credito[0] == 1){ ?><img src='<?php bloginfo('template_directory');?>/imagens/visa.png'><?php } ?>
+									<?php if($cartao_de_credito[1] == 1){ ?><img src='<?php bloginfo('template_directory');?>/imagens/mastercard.png'><?php } ?>
+									<?php if($cartao_de_credito[0] != 1 and $cartao_de_credito[1] != 1){ ?><img src='<?php bloginfo('template_directory');?>/imagens/sem-cartao.png'><?php } ?>
+									<span>Estacionamento:</span>
+									<?php if(types_render_field("estacionamento-estabelecimento-sel", array("output"=>"txt")) == 'Sim'){ ?><img src='<?php bloginfo('template_directory');?>/imagens/com-estacionamento.png'><?php } else { ?>
+									<img src='<?php bloginfo('template_directory');?>/imagens/sem-estacionamento.png'>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+							
+					</p>
+					<div class="clear"></div>
+					<p class='tags'>
+					<?php the_tags('<b>Tags:</b>', ', ', '<br />'); ?> 
+					</p>
+					<div id="vejamais">
+						<b class='linksmais'><a href="<?php the_permalink() ?>" class=''>Saborear mais...<i class="scicon-awesome-thumbs-up"></i></a></b><b class='linksmais'>  <a href="<?php the_permalink() ?>#comments" class=''><i class="scicon-awesome-chat-empty"></i>Deixar Comentário</a></b><b class='linksmais'>  <a href="<?php the_permalink() ?>#box-avaliacao" class=''><i class="scicon-awesome-food"></i>Ver avalia&ccedil;&atilde;o</a></b>
+							</div>
+                </div> 
+				<?php
+				} else if($i < 4) {?>
+				<div class="artigomais">
+				<?php
+					if($i == 2){
+				?>
+				<span class='maisposts'>Mais posts...</span>
+				<?php } ?>
+				</div>
+				<div class="artigo">
+					
+					<h2><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h2>
+                    <div class='clear'></div>
+					<?php $url = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') ); ?>
+					<div class="artigo-img" <?php thumbnail_bg( 'full' ); ?>></div>				
+					<span class="amarelo">Publicado em: </span><?php the_time('j \d\e F \d\e Y') ?></span> <span class="amarelo">Cidade: </span>
+<span class="amarelo"> Estado:</span> <span class="amarelo"> Por:</span><span class="amarelo"><?php the_author() ?></span> - <span class="amarelo"><?php comments_popup_link('Sem Comentários', '1 Comentário', '% Comentários', 'comments-link', ''); ?> <?php edit_post_link('(Editar)'); ?></span></p>
+
+                    <p class='dados-artigo'>
+					<div id='conteudopost'>
+                    <p><?php the_excerpt(); ?>
+					 <?php if(function_exists('wizylike')) wizylike('button');  ?> 		
+					</p>
+					</div>
+					<b class='linksmais'><a href="<?php the_permalink() ?>" class=''>Saborear mais...<i class="scicon-awesome-thumbs-up"></i></a></b><b class='linksmais'>  <a href="<?php the_permalink() ?>#comments" class=''><i class="scicon-awesome-chat-empty"></i>Deixar Comentário</a></b><b class='linksmais'>  <a href="<?php the_permalink() ?>#box-avaliacao" class=''><i class="scicon-awesome-food"></i>Ver avalia&ccedil;&atilde;o</a></b>
+                   </br><p class='tags'>
+					<?php the_tags('<b>Tags:</b>', ', ', '<br />'); ?> 
+					</p>
+					<?php echo do_shortcode("[pro_ad_display_adzone id=6]"); ?>
+<div class="divisor2"></div>
+                </div>
+				<?php } ?>
+		          
+            <?php endwhile?>
+			<?php post_pagination();?>
+			<div class='anuncio'>
+				<?php  if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar("Anuncio Topo")):?>
+				<?php endif; ?>	
+				<div id='rodape-topo'>
+					 <span style="padding-left:3%;" class="comment">Assine nossa lista</span>
+					 <?php formcraft(2); ?>	
+					
+				</div>
+			</div>
+			
+                <!--<div class="navegacao">
+                    <div class="recentes"><?php next_posts_link('&laquo; Artigos Anteriores') ?></div>
+                    <div class="anteriores"><?php previous_posts_link('Artigos Recentes &raquo;') ?></div>
+                </div>-->
+            <?php else: ?>
+                <div class="artigo">
+                    <h2>Nada Encontrado</h2>
+                    <p>Erro 404</p>
+                    <p>Lamentamos mas não foram encontrados artigos.</p>
+                </div>            
+            <?php endif; ?>
+             
+        </div>     
+        <?php get_sidebar(); ?>
+			
+    	</div>
+    </div>
+	
+<?php get_footer(); ?>
